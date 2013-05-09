@@ -1,0 +1,32 @@
+Name: ironmq
+Cartridge-Short-Name: IRONMQ
+Display-Name: IronMQ 0.1
+Description: "Message Queue as a Service"
+Version: 0.1
+License: GPLv2
+Vendor: Iron.io
+Cartridge-Version: 0.0.1
+Cartridge-Vendor: ironio
+Website: "http://www.iron.io/"
+Categories:
+  - embedded
+Cart-Data:
+  - Key: project_id
+    Type: cart_data
+    Description: "ironmq credentials - Project ID"
+  - Key: token
+    Type: cart_data
+    Description: "ironmq credentials - Token"
+Provides:
+  - ironmq-0.1
+  - "ironmq"
+Publishes:
+  deps-install-gems:
+    Type: "DEP:deps-install:gems"
+  deps-install-jars:
+    Type: "DEP:deps-install:java"
+Scaling:
+  Min: 1
+  Max: 1
+Install-Build-Required: false
+

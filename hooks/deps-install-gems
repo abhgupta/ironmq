@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# specify the gems that are required to be installed as a semi-colon separated list
+
+echo "GEMS=iron_mq"
+

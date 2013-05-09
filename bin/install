@@ -1,0 +1,9 @@
+#!/bin/bash -e
+
+source $OPENSHIFT_CARTRIDGE_SDK_BASH
+
+client_result ""
+client_result "Please make a note of these credentials to making API calls to the IronMQ hosted service"
+client_result "  Project ID: $OPENSHIFT_IRONMQ_PROJECT_ID"
+client_result "       Token: $OPENSHIFT_IRONMQ_TOKEN"
+client_result ""

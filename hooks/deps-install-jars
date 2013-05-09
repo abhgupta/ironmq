@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# specify the jars that are required to be installed as a semi-colon separated list
+
+echo "JARS=$OPENSHIFT_IRONMQ_DIR/usr/ironmq-0.0.10.jar;$OPENSHIFT_IRONMQ_DIR/usr/gson-2.2.3.jar"
+

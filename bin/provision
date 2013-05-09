@@ -1,0 +1,71 @@
+#!/usr/bin/env oo-ruby
+
+require 'json'
+
+$cartridgeShortname = 'IRONMQ'
+$envDir = ENV["OPENSHIFT_#{$cartridgeShortname}_DIR"]
+$envPath = "#{$envDir}/env/"
+$logClientError = 'CLIENT_ERROR: '
+$logClientResult = 'CLIENT_RESULT: '
+$logClientMessage = 'CLIENT_MESSAGE: '
+
+
+def setEnvVar(varName, varValue)
+  @fileName = $envPath + varName
+  begin
+    File.open(@fileName, 'w') { |f| f.write(varValue) }
+  rescue
+    log($logClientError, "Could not set env var #{varName} at #{@fileName} to value: #{varValue}")
+  end
+end
+
+def getEnvVar(varName)
+  @fileName = $envPath + varName
+  value = None
+  begin
+    file = File.open(@fileName, "r")
+    value = file.read()
+  rescue
+    log($logClientError, "Could not get a requested environment variable, #{varName}, at #{@fileName}")
+    return None
+  end
+  return value
+end
+
+def log(channel, message)
+  puts channel + message
+end
+
+###################
+# provision
+#
+# Creates a new iron.io account specific to the application
+###################
+
+def provision()
+  log($logClientMessage, "Creating user account...")
+  
+  # assemble proper inputs
+  @partner_name = 'openshift'
+  @account_type = "iron_mq"
+  @partner_password = 'password'
+  @app_uuid = ENV["OPENSHIFT_APP_UUID"]
+  
+  account = provision_account(@partner_name, @partner_password, @account_type, @app_uuid)
+  if account.nil?
+    log($logClientError, "Failed to provision account")
+    return 1
+  end
+
+  setEnvVar('OPENSHIFT_IRONMQ_PROJECT_ID', account['project_id'])
+  setEnvVar('OPENSHIFT_IRONMQ_TOKEN', account['token'])  
+
+  log($logClientMessage, "Account successfully created")
+end
+
+def provision_account(partner_name, partner_password, account_type, app_uuid)
+  return { "token" => "ironio_token", "project_id" => "ironio_project_id" }
+end
+
+provision()
+
